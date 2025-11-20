@@ -4,6 +4,7 @@ import { Webhook } from "svix";
 import { NonRetriableError } from "inngest";
 import { deleteUser, insertUser, updateUser } from "@/features/users/db/user";
 import { insertUserNotificationSettings } from "@/features/users/db/userNotificationSettings";
+import { deleteOrganization, insertOrganization, updateOrganization } from "@/features/organization/db/user";
 
 function verifyWebhook({
   raw,
@@ -29,12 +30,13 @@ export const clerkCreateUser = inngest.createFunction(
 
     const userId = await step.run("create-user", async () => {
       const userData = event.data.data;
+
       const email = userData.email_addresses.find(
         (email) => email.id === userData.primary_email_address_id
       );
 
-      if (email == null) {
-        throw new NonRetriableError("No primary email address found");
+      if (!email) {
+        throw new NonRetriableError("Primary email not found");
       }
 
       await insertUser({
@@ -45,6 +47,7 @@ export const clerkCreateUser = inngest.createFunction(
         createdAt: new Date(userData.created_at),
         updatedAt: new Date(userData.updated_at),
       });
+
       return userData.id;
     });
 
@@ -106,7 +109,91 @@ export const clerkDeleteUser = inngest.createFunction(
         throw new NonRetriableError("No ID found");
       }
 
-      await deleteUser(id)
+      await deleteUser(id);
+    });
+  }
+);
+export const clerkCreateOrganization = inngest.createFunction(
+  {
+    id: "clerk/create-db-organization",
+    name: "Clerk - Create DB Organization",
+  },
+  { event: "clerk/organization.created" },
+  async ({ event, step }) => {
+    await step.run("verify-webhook", async () => {
+      try {
+        verifyWebhook(event.data);
+      } catch {
+        throw new NonRetriableError("Invalid webhook");
+      }
+    });
+
+    await step.run("create-organization", async () => {
+      const orgData = event.data.data;
+
+      await insertOrganization({
+        id: orgData.id,
+        name: orgData.name,
+        imageUrl: orgData.image_url,
+        createdAt: new Date(orgData.created_at),
+        updatedAt: new Date(orgData.updated_at),
+      });
+    });
+  }
+);
+
+
+export const clerkUpdateOrganization = inngest.createFunction(
+  { id: "clerk/update-db-organization", name: "Clerk - Update DB Organization" },
+  { event: "clerk/organization.updated" },
+  async ({ event, step }) => {
+    await step.run("verify-webhook", async () => {
+      try {
+        verifyWebhook(event.data);
+      } catch {
+        throw new NonRetriableError("Invalid webhook");
+      }
+    });
+
+    await step.run("update-user", async () => {
+      const orgData = event.data.data;
+     
+
+      if (orgData == null) {
+        throw new NonRetriableError("No primary email address found");
+      }
+
+      await updateOrganization(orgData.id, {
+        name: orgData.name,
+        imageUrl: orgData.image_url,
+    
+        updatedAt: new Date(orgData.updated_at),
+      });
+    
+    });
+  }
+);
+
+export const clerkDeleteOrganization = inngest.createFunction(
+  { id: "clerk/delete-db-Organization", name: "Clerk - Delete DB Organization" },
+  { event: "clerk/organization.deleted" },
+  async ({ event, step }) => {
+    await step.run("verify-webhook", async () => {
+      try {
+        verifyWebhook(event.data);
+      } catch {
+        throw new NonRetriableError("Invalid webhook");
+      }
+    });
+
+    await step.run("delete-organization", async () => {
+      const {id} = event.data.data;
+    
+      if (id == null) {
+        throw new NonRetriableError("No ID found");
+      }
+
+      await deleteOrganization(id);
     });
   }
 );

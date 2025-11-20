@@ -1,6 +1,6 @@
 type CacheTag =
   | "users"
-  | "orgranizations"
+  | "organizations"
   | "jobListings"
   | "userNotficationSettings"
   | "userResumes"
