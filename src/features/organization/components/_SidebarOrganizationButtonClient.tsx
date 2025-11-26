@@ -57,7 +57,7 @@ export function SidebarOrganizationButtonClient({
     <SidebarMenu>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <SidebarMenuButton className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground">
+          <SidebarMenuButton size="lg" className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground">
             <OrganizationInfo user={user} organization={organization} />
             <ChevronsUpDown className="ml-auto group-data-[state=collapsed]:hidden" />
           </SidebarMenuButton>
@@ -121,8 +121,8 @@ function OrganizationInfo({
     .map((str) => str[0])
     .join("");
   return (
-    <div className="flex items-center gap-2 overflow-hidden">
-      <Avatar className="rounded-lg size-8">
+    <div className="flex items-center gap-2 overflow-hidden w-full">
+      <Avatar className="rounded-lg size-8 shrink-0">
         <AvatarImage
           src={organization.imageUrl ?? undefined}
           alt={organization.name}

@@ -45,7 +45,7 @@ export function SidebarUserButtonClient({ user }: { user: User }) {
     <SidebarMenu>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <SidebarMenuButton className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground">
+          <SidebarMenuButton  size="lg" className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground">
             <UserInfo {...user} />
             <ChevronsUpDown className="ml-auto group-data-[state=collapsed]:hidden" />
           </SidebarMenuButton>
