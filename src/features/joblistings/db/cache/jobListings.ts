@@ -1,6 +1,6 @@
 import { getGlobaltag, getIdTag, getOrganizationTag } from "@/lib/dataCache";
 import { revalidateTag } from "next/cache";
-import { getOrganizationIdTag } from "../../organization/db/cache/user";
+
 
 export function getJobListingGlobalTag() {
   return getGlobaltag("jobListings");

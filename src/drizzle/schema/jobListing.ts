@@ -53,7 +53,7 @@ export const jobListingTable = pgTable(
   "job_listings",
   {
     id,
-    orgranizationId: varchar()
+    organizationId: varchar()
       .references(() => OrganizationTable.id, {
         onDelete: "cascade",
       })
@@ -80,7 +80,7 @@ export const jobListingReferences = relations(
   jobListingTable,
   ({ one, many }) => ({
     organization: one(OrganizationTable, {
-      fields: [jobListingTable.orgranizationId],
+      fields: [jobListingTable.organizationId],
       references: [OrganizationTable.id],
     }),
 

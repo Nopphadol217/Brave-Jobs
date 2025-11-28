@@ -8,8 +8,8 @@ import z from "zod";
 
 export const jobListingSchema = z
   .object({
-    title: z.string().min(1),
-    description: z.string().min(1),
+    title: z.string().min(1, "Required"),
+    description: z.string().min(1, "Required"),
     experienceLevel: z.enum(experienceLevels),
     locationRequirement: z.enum(locationRequirements),
     type: z.enum(jobListingTypes),
@@ -39,4 +39,3 @@ export const jobListingSchema = z
     },
     { message: "Required for non-remote listings", path: ["stateAbbreviation"] }
   );
- 
