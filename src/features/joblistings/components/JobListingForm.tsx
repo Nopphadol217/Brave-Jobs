@@ -30,7 +30,7 @@ import {
 import {
   formatExperienceLevel,
   formatJobListingTypes,
-  formatJobLocationRequirement,
+  formatLocationRequirement,
   formatWageInterval,
 } from "../libs/formatter";
 import { StateSlectItems } from "./StateSelectItems";
@@ -61,12 +61,9 @@ export function JobListingForm() {
 
   async function onSubmit(data: z.infer<typeof jobListingSchema>) {
     await new Promise((res) => setTimeout(res, 1000));
-    console.log(data);
+
     const res = await createJobListing(data);
-    try {
-    
-    } catch (error) {
-      console.log(error);
+    if (res.error) {
       toast.error(res.message);
     }
   }
@@ -221,7 +218,7 @@ export function JobListingForm() {
                   <SelectContent>
                     {locationRequirements.map((lr) => (
                       <SelectItem key={lr} value={lr}>
-                        {formatJobLocationRequirement(lr)}
+                        {formatLocationRequirement(lr)}
                       </SelectItem>
                     ))}
                   </SelectContent>

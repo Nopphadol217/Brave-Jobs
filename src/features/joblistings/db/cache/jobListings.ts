@@ -5,7 +5,7 @@ import { revalidateTag } from "next/cache";
 export function getJobListingGlobalTag() {
   return getGlobaltag("jobListings");
 }
-export function getJobListingOranizationTag(organizationId: string) {
+export function getJobListingOrganizationTag(organizationId: string) {
   return getOrganizationTag("jobListings", organizationId);
 }
 
@@ -21,6 +21,6 @@ export function revalidateJobListingCache({
   organizationId: string;
 }) {
   revalidateTag(getJobListingGlobalTag());
-  revalidateTag(getJobListingOranizationTag(organizationId));
+  revalidateTag(getJobListingOrganizationTag(organizationId));
   revalidateTag(getJobListingIdTag(id));
 }

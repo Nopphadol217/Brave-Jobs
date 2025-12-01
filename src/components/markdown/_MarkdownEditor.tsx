@@ -33,8 +33,12 @@ export default function internalMarkdownEditor({
     <MDXEditor
       {...props}
       ref={ref}
-      className={cn(markdownClassNames, isDarkMode && "dark-theme", className)}
-    contentEditableClassName="prose"
+      className={cn(
+        markdownClassNames,
+        isDarkMode && "dark-theme prose-invert",
+        className
+      )}
+    
       suppressHtmlProcessing
       plugins={[
         headingsPlugin(),
@@ -43,8 +47,7 @@ export default function internalMarkdownEditor({
         thematicBreakPlugin(),
         markdownShortcutPlugin(),
         tablePlugin(),
-        toolbarPlugin(
-            {
+        toolbarPlugin({
           toolbarContents: () => (
             <>
               <BlockTypeSelect />
@@ -54,8 +57,7 @@ export default function internalMarkdownEditor({
               <InsertTable />
             </>
           ),
-        }
-        )
+        }),
       ]}
     />
   );
