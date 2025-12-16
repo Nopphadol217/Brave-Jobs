@@ -1,7 +1,8 @@
+"use client"
 import { UseIsDarkMode } from "@/hooks/useIsDarkMode";
 import { cn } from "@/lib/utils";
 import {
-  BlockTypeSelect,
+   BlockTypeSelect,
   BoldItalicUnderlineToggles,
   headingsPlugin,
   InsertTable,
@@ -15,13 +16,12 @@ import {
   quotePlugin,
   tablePlugin,
   thematicBreakPlugin,
-  toolbarContents$,
   toolbarPlugin,
 } from "@mdxeditor/editor";
 import { Ref } from "react";
+import { markdownClassNames } from "./MarkdownRenderer";
 
-export const markdownClassNames =
-  "max-w-none prose prose-neutral dark:prose-invert font-sans";
+
 
 export default function internalMarkdownEditor({
   ref,
@@ -30,15 +30,10 @@ export default function internalMarkdownEditor({
 }: MDXEditorProps & { ref?: Ref<MDXEditorMethods> }) {
   const isDarkMode = UseIsDarkMode();
   return (
-    <MDXEditor
+     <MDXEditor
       {...props}
       ref={ref}
-      className={cn(
-        markdownClassNames,
-        isDarkMode && "dark-theme prose-invert",
-        className
-      )}
-    
+      className={cn(markdownClassNames, isDarkMode && "dark-theme", className)}
       suppressHtmlProcessing
       plugins={[
         headingsPlugin(),

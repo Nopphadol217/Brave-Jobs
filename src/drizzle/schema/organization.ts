@@ -1,7 +1,7 @@
 import { pgTable, varchar } from "drizzle-orm/pg-core";
 import { createdAt, updatedAt } from "../schemaHelpers";
 import { relations } from "drizzle-orm";
-import { jobListingTable } from "./jobListing";
+import { JobListingTable } from "./jobListing";
 import { OrganizationUserSettingsTable } from "./organizationUserSettings";
 
 export const OrganizationTable = pgTable("organizations", {
@@ -15,7 +15,7 @@ export const OrganizationTable = pgTable("organizations", {
 export const organizationRelations = relations(
   OrganizationTable,
   ({ many }) => ({
-    jobListings: many(jobListingTable),
+    jobListings: many(JobListingTable),
     OrganizationUserSettings: many(OrganizationUserSettingsTable),
   })
 );

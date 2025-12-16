@@ -1,21 +1,38 @@
 import { db } from "@/drizzle/db";
-import { jobListingTable, UserTable } from "@/drizzle/schema";
+import { JobListingTable, UserTable } from "@/drizzle/schema";
 import { eq } from "drizzle-orm";
 
 import { revalidateJobListingCache } from "./cache/jobListings";
 
 export async function insertJobListing(
-  jobListing: typeof jobListingTable.$inferInsert
+  jobListing: typeof JobListingTable.$inferInsert
 ) {
   const [newListing] = await db
-    .insert(jobListingTable)
+    .insert(JobListingTable)
     .values(jobListing)
     .returning({
-      id: jobListingTable.id,
-      organizationId: jobListingTable.organizationId,
+      id: JobListingTable.id,
+      organizationId: JobListingTable.organizationId,
     });
 
   revalidateJobListingCache(newListing);
 
-  return newListing
+  return newListing;
+}
+export async function updateJobListing(
+  id: string,
+  
+  jobListing: Partial<typeof JobListingTable.$inferInsert>
+) {
+  const [updatedListing] = await db
+    .update(JobListingTable)
+    .set(jobListing)
+    .where(eq(JobListingTable.id, id))
+    .returning({
+      id: JobListingTable.id,
+      organizationId: JobListingTable.organizationId,
+    })
+  revalidateJobListingCache(updatedListing);
+
+  return updatedListing;
 }

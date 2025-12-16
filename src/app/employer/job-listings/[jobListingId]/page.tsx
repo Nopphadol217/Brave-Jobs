@@ -1,7 +1,9 @@
+import { MarkdownPartial } from "@/components/markdown/MarkdownPartial";
+import { MarkdownRenderer } from "@/components/markdown/MarkdownRenderer";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { db } from "@/drizzle/db";
-import { jobListingTable } from "@/drizzle/schema";
+import { JobListingTable } from "@/drizzle/schema";
 import { JobListingBadges } from "@/features/joblistings/components/JobListingBadges";
 import { getJobListingIdTag } from "@/features/joblistings/db/cache/jobListings";
 import { formatJobListingStatus } from "@/features/joblistings/libs/formatter";
@@ -52,8 +54,8 @@ async function SuspendedPage({ params }: Props) {
         </div>
       </div>
       <MarkdownPartial
-       dialogMarkdown={<MarkdownRenderer source={jobListing.description }}  
-       mainMarkdown={<MarkdownRenderer className="prose-sm" source={jobListing.description }}  
+       dialogMarkdown={<MarkdownRenderer source={jobListing.description }/>}  
+       mainMarkdown={<MarkdownRenderer className="prose-sm" source={jobListing.description }/>}  
        dialogTitle="Description"
        />
     </div>
@@ -64,10 +66,10 @@ async function getJobListing(id: string, orgId: string) {
   "use cache";
   cacheTag(getJobListingIdTag(id));
 
-  return db.query.jobListingTable.findFirst({
+  return db.query.JobListingTable.findFirst({
     where: and(
-      eq(jobListingTable.id, id),
-      eq(jobListingTable.organizationId, orgId)
+      eq(JobListingTable.id, id),
+      eq(JobListingTable.organizationId, orgId)
     ),
   });
 }

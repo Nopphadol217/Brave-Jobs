@@ -1,5 +1,5 @@
 import { Badge } from "@/components/ui/badge";
-import { jobListingTable, wageIntervalEnum } from "@/drizzle/schema";
+import { JobListingTable, wageIntervalEnum } from "@/drizzle/schema";
 import { cn } from "@/lib/utils";
 import { ComponentProps } from "react";
 import {
@@ -32,7 +32,7 @@ export function JobListingBadges({
   className,
 }: {
   jobListing: Pick<
-    typeof jobListingTable.$inferSelect,
+    typeof JobListingTable.$inferSelect,
     | "wage"
     | "wageInterval"
     | "stateAbbreviation"

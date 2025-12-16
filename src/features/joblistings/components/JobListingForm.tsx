@@ -1,5 +1,5 @@
 "use client";
-import { useForm } from "react-hook-form";
+
 import { zodResolver } from "@hookform/resolvers/zod";
 import { jobListingSchema } from "../actions/schema";
 import {
@@ -22,6 +22,7 @@ import {
 } from "@/components/ui/select";
 import {
   experienceLevels,
+  JobListingTable,
   jobListingTypes,
   locationRequirementEnum,
   locationRequirements,
@@ -38,15 +39,33 @@ import { MarkdownEditor } from "@/components/markdown/MarkdownEdior";
 import { Button } from "@/components/ui/button";
 import { LoadingSwap } from "@/components/LoadingSwap";
 import { Loader2Icon } from "lucide-react";
-import { createJobListing } from "../actions/action";
+import { createJobListing, updateJobListing } from "../actions/action";
 import { toast } from "sonner";
+import { useForm } from "react-hook-form";
 
 const NONE_SELECT_VALUE = "none";
 
-export function JobListingForm() {
+export function JobListingForm({
+  jobListing,
+}: {
+  jobListing: Pick<
+    typeof JobListingTable.$inferSelect,
+    | "title"
+    | "description"
+    | "experienceLevel"
+    | "id"
+    | "stateAbbreviation"
+    | "status"
+    | "type"
+    | "wage"
+    | "wageInterval"
+    | "city"
+    | "locationRequirement"
+  >;
+}) {
   const form = useForm({
     resolver: zodResolver(jobListingSchema),
-    defaultValues: {
+    defaultValues: jobListing ?? {
       title: "",
       description: "",
       stateAbbreviation: null,
@@ -61,8 +80,10 @@ export function JobListingForm() {
 
   async function onSubmit(data: z.infer<typeof jobListingSchema>) {
     await new Promise((res) => setTimeout(res, 1000));
-
-    const res = await createJobListing(data);
+    const action = jobListing
+      ? updateJobListing.bind(null , jobListing.id)
+      : createJobListing;
+    const res = await action(data);
     if (res.error) {
       toast.error(res.message);
     }

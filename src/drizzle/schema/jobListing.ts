@@ -49,7 +49,7 @@ export const jobListingTypes = [
 export type jobListingType = (typeof jobListingTypes)[number];
 export const jobListingTypeEnum = pgEnum("job_listings_type", jobListingTypes);
 
-export const jobListingTable = pgTable(
+export const JobListingTable = pgTable(
   "job_listings",
   {
     id,
@@ -77,10 +77,10 @@ export const jobListingTable = pgTable(
 );
 
 export const jobListingReferences = relations(
-  jobListingTable,
+  JobListingTable,
   ({ one, many }) => ({
     organization: one(OrganizationTable, {
-      fields: [jobListingTable.organizationId],
+      fields: [JobListingTable.organizationId],
       references: [OrganizationTable.id],
     }),
 

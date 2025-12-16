@@ -1,5 +1,5 @@
 import { db } from "@/drizzle/db"
-import { jobListingTable } from "@/drizzle/schema"
+import { JobListingTable } from "@/drizzle/schema"
 import { getJobListingOrganizationTag } from "@/features/joblistings/db/cache/jobListings"
 import { getCurrentOrganization } from "@/services/clerk/libs/getCurrentAuth"
 
@@ -33,9 +33,9 @@ async function getMostRecentJobListing(orgId: string) {
   "use cache"
   cacheTag(getJobListingOrganizationTag(orgId))
 
-  return db.query.jobListingTable.findFirst({
-    where: eq(jobListingTable.organizationId, orgId),
-    orderBy: desc(jobListingTable.createdAt),
+  return db.query.JobListingTable.findFirst({
+    where: eq(JobListingTable.organizationId, orgId),
+    orderBy: desc(JobListingTable.createdAt),
     columns: { id: true },
   })
 }
