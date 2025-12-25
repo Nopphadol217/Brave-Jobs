@@ -35,7 +35,7 @@ export const experienceLevelEnum = pgEnum(
 );
 
 export const jobListingStatuses = ["draft", "published", "delisted"] as const;
-export type jobListingStatus = (typeof jobListingStatuses)[number];
+export type JobListingStatus = (typeof jobListingStatuses)[number];
 export const jobListingStatusEnum = pgEnum(
   "job_listings_status",
   jobListingStatuses

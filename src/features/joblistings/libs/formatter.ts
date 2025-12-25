@@ -1,6 +1,6 @@
 import {
   experienceLevel,
-  jobListingStatus,
+  JobListingStatus,
   jobListingType,
   locationRequirement,
   wageInterval,
@@ -66,7 +66,7 @@ export function formatJobListingTypes(type: jobListingType) {
   }
 }
 
-export function formatJobListingStatus(status: jobListingStatus) {
+export function formatJobListingStatus(status: JobListingStatus) {
   switch (status) {
     case "published":
       return "Active";

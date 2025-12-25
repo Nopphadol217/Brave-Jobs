@@ -46,7 +46,7 @@ export function JobListingBadges({
 }) {
   const badgeProps = {
     variant: "outline",
-    className: cn(isFeatured && "border-primary/35"),
+    className,
   } satisfies ComponentProps<typeof Badge>;
 
   return (
